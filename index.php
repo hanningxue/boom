@@ -1,17 +1,27 @@
 <?php
-$ip = $_SERVER['REMOTE_ADDR'];
-$time = gmdate("H:i:s",time()+8*3600);
-$file = "123.txt" ;
-$fp=fopen ("123.txt","a") ;
-$txt= "$ip"."----"."$time"."\n";
-fputs($fp,$txt);
-?>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?a2e2e465098d883036e3cfad66f7203d";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+/**
+ * Typecho Blog Platform
+ *
+ * @copyright  Copyright (c) 2008 Typecho team (http://www.typecho.org)
+ * @license    GNU General Public License 2.0
+ * @version    $Id: index.php 1153 2009-07-02 10:53:22Z magike.net $
+ */
+
+/** 载入配置支持 */
+if (!defined('__TYPECHO_ROOT_DIR__') && !@include_once 'config.inc.php') {
+    file_exists('./install.php') ? header('Location: install.php') : print('Missing Config File');
+    exit;
+}
+
+/** 初始化组件 */
+Typecho_Widget::widget('Widget_Init');
+
+/** 注册一个初始化插件 */
+Typecho_Plugin::factory('index.php')->begin();
+
+/** 开始路由分发 */
+Typecho_Router::dispatch();
+
+/** 注册一个结束插件 */
+Typecho_Plugin::factory('index.php')->end();
+
